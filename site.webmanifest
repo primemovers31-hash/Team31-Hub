@@ -1,0 +1,16 @@
+{
+  "name": "Team 31 Hub",
+  "short_name": "Team31Hub",
+  "description": "Mobile-friendly Team 31 control room for roster intel, receipts, reports, and future robotics modules.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#09080d",
+  "theme_color": "#120f1a",
+  "icons": [
+    {
+      "src": "assets/app-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
