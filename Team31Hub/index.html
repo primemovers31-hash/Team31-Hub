@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team 31 Hub</title>
+  <meta name="theme-color" content="#120f1a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Team 31 Hub">
+  <link rel="icon" type="image/png" href="assets/app-icon.png">
+  <link rel="apple-touch-icon" href="assets/app-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <nav class="topbar">
+        <div class="brand-lockup">
+          <img class="brand-logo" src="assets/team31-logo.png" alt="Team 31 logo">
+          <div>
+            <p class="eyebrow">Prime Movers Command</p>
+            <h1>Team 31 Hub</h1>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <a class="ghost-button" href="#agents-section">Agents</a>
+          <a class="ghost-button" href="#evidence-section">Evidence</a>
+          <a class="ghost-button" href="#report-section">Report Mode</a>
+          <a class="ghost-button" href="#setup-section">Setup</a>
+        </div>
+      </nav>
+
+      <div class="hero-grid">
+        <section class="hero-copy">
+          <p class="hero-kicker">Discord receipts, room intel, moderation notes, and robotics ops in one phone-friendly app.</p>
+          <h2>A real Team 31 control room, not just a joke scoreboard.</h2>
+          <p class="hero-text">This hub loads your roster, imports the Discord export folders you dropped in, highlights conduct and moderation signals, keeps local score adjustments, and leaves room for the bigger robotics app you want later.</p>
+          <div class="hero-actions">
+            <a class="primary-button" href="#overview-section">Open command board</a>
+            <a class="ghost-button" href="#setup-section">See what to add next</a>
+          </div>
+          <div class="hero-stat-grid" id="hero-stat-grid"></div>
+        </section>
+
+        <aside class="hero-card">
+          <p class="eyebrow">What this can do now</p>
+          <div class="hero-card-list">
+            <article>
+              <strong>Roster + dossiers</strong>
+              <p>Every member account, room assignment, codename, and review surface in one place.</p>
+            </article>
+            <article>
+              <strong>Receipt mining</strong>
+              <p>Discord export HTML is parsed into message counts, timestamps, risk categories, and evidence cards.</p>
+            </article>
+            <article>
+              <strong>Manual command actions</strong>
+              <p>File local reports, add score swings, and leave your own notes without touching the raw receipts.</p>
+            </article>
+          </div>
+        </aside>
+      </div>
+    </header>
+
+    <main class="main-shell">
+      <section class="command-strip" id="overview-section">
+        <div class="command-filter">
+          <label for="search-input">Search</label>
+          <input id="search-input" type="search" placeholder="Search agents, Discord names, tags, notes...">
+        </div>
+        <div class="command-filter">
+          <label for="room-filter">Room</label>
+          <select id="room-filter"></select>
+        </div>
+        <div class="command-filter">
+          <label for="role-filter">Role</label>
+          <select id="role-filter">
+            <option value="All">All roles</option>
+            <option value="Student">Students</option>
+            <option value="Mentor">Mentors</option>
+          </select>
+        </div>
+        <div class="command-filter">
+          <label for="category-filter">Evidence Filter</label>
+          <select id="category-filter"></select>
+        </div>
+        <div class="command-filter">
+          <label for="sort-filter">Sort</label>
+          <select id="sort-filter">
+            <option value="score">Highest score</option>
+            <option value="flags">Most flagged</option>
+            <option value="activity">Most active</option>
+            <option value="recent">Most recent receipts</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="overview-grid">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Leaderboard</p>
+              <h3>Top operatives</h3>
+            </div>
+            <p class="panel-copy">Score combines imported signal heuristics with your local adjustments.</p>
+          </div>
+          <div class="ranking-list" id="leaderboard-list"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Room Heat</p>
+              <h3>Classroom snapshot</h3>
+            </div>
+            <p class="panel-copy">Average score, receipt coverage, and moderation pressure by room.</p>
+          </div>
+          <div class="room-grid" id="room-grid"></div>
+        </article>
+
+        <article class="panel panel-wide">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Evidence Pulse</p>
+              <h3>Current moderation categories</h3>
+            </div>
+            <p class="panel-copy">Sanitized previews show first. Raw receipt text stays hidden until you explicitly reveal it.</p>
+          </div>
+          <div class="category-grid" id="category-grid"></div>
+        </article>
+      </section>
+
+      <section class="workspace-grid" id="agents-section">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Agents</p>
+              <h3>Roster and accounts</h3>
+            </div>
+            <p class="panel-copy" id="agent-grid-copy">Loading agents...</p>
+          </div>
+          <div class="agent-grid" id="agent-grid"></div>
+        </section>
+
+        <aside class="panel sticky-panel">
+          <p class="eyebrow">Selected dossier</p>
+          <div id="dossier-panel"></div>
+        </aside>
+      </section>
+
+      <section class="evidence-grid" id="evidence-section">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Evidence Board</p>
+              <h3>Flagged receipts and notable activity</h3>
+            </div>
+            <p class="panel-copy" id="evidence-copy">Review items from the parsed Discord exports and your local reports.</p>
+          </div>
+          <div class="evidence-list" id="evidence-list"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Reward Ladder</p>
+              <h3>Behavior game layer</h3>
+            </div>
+            <p class="panel-copy">Keep this playful, but use the flagged receipts seriously when something actually needs intervention.</p>
+          </div>
+          <div class="reward-grid" id="reward-grid"></div>
+        </section>
+      </section>
+
+      <section class="report-grid" id="report-section">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Report Mode</p>
+              <h3>File a local commendation or conduct note</h3>
+            </div>
+            <p class="panel-copy">These reports stay in this browser and layer on top of the imported receipts.</p>
+          </div>
+          <form class="report-form" id="report-form">
+            <label>
+              <span>Target agent</span>
+              <select id="report-target"></select>
+            </label>
+            <label>
+              <span>Filed by</span>
+              <input id="report-reporter" type="text" maxlength="50" placeholder="Mentor, room lead, anonymous witness...">
+            </label>
+            <label>
+              <span>Report type</span>
+              <select id="report-type">
+                <option value="commendation">Commendation</option>
+                <option value="conduct">Conduct issue</option>
+                <option value="attendance">Attendance note</option>
+                <option value="admin">Admin action</option>
+              </select>
+            </label>
+            <label>
+              <span>Point swing</span>
+              <select id="report-delta">
+                <option value="20">+20</option>
+                <option value="35">+35</option>
+                <option value="-10">-10</option>
+                <option value="-20">-20</option>
+                <option value="-35">-35</option>
+                <option value="-60">-60</option>
+              </select>
+            </label>
+            <label class="full-span">
+              <span>Summary</span>
+              <textarea id="report-summary" rows="4" maxlength="320" placeholder="Describe what happened and why it matters."></textarea>
+            </label>
+            <button class="primary-button" type="submit">Save local report</button>
+          </form>
+          <p class="status-copy" id="report-status">Local report storage ready.</p>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Local Reports</p>
+              <h3>Manual command feed</h3>
+            </div>
+            <p class="panel-copy">Your adjustments, commendations, and intervention notes.</p>
+          </div>
+          <div class="manual-feed" id="manual-feed"></div>
+        </section>
+      </section>
+
+      <section class="setup-grid" id="setup-section">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">What You Can Do</p>
+              <h3>Current toolkit</h3>
+            </div>
+          </div>
+          <div class="module-list" id="capability-list"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">What To Add</p>
+              <h3>Future robotics hub modules</h3>
+            </div>
+          </div>
+          <div class="module-list" id="future-module-list"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Integrations</p>
+              <h3>Plugins and setups that would help later</h3>
+            </div>
+          </div>
+          <div class="module-list" id="integration-list"></div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script src="data/team31-hub-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
